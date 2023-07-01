@@ -1,0 +1,258 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VehiclesMetaEditor"
+        xmlns:VisualBasic="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic.Core" x:Name="window" x:Class="VehiclesMetaEditor.MainWindow"
+        mc:Ignorable="d"
+        Title="vehicles.meta Editor" Height="595" Width="800" Drop="Window_Drop" AllowDrop="True" FontFamily="Roboto Condensed" DragOver="Window_DragOver" MouseMove="Window_MouseMove" Icon="/shell32_16775.ico" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <DockPanel Grid.Row="0" Grid.Column="0">
+            <Menu DockPanel.Dock="Top" FontFamily="Roboto Condensed">
+                <MenuItem Header="_Fichier" TabIndex="0">
+                    <MenuItem Header="_Ouvrir" Click="OpenFileBtn_Click"/>
+                    <MenuItem x:Name="menuSaveItem" Header="_Enregistrer" IsEnabled="False" Click="SaveFileBtn_Click"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+
+        <Grid x:Name="DataGrid" Grid.Row="1" Grid.Column="0" IsEnabled="False" Background="#2600D1FF" Margin="10,10,10,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0" Margin="0,5,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                    <Label Content="Véhicule" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                    <ComboBox x:Name="vehicleSelector" IsEditable="True" PreviewKeyUp="VehicleSelector_TextInput" IsTextSearchEnabled="False" SelectionChanged="VehicleSelector_SelectionChanged" VerticalAlignment="Center" MinWidth="100"/>
+                    <Button Content="Enregistrer" Background="#FF9EDC9D" Margin="10,10,10,10" Click="UpdateXMLData" FontSize="14"/>
+                    <Button Content="Réinitialiser" Background="#FFE5E696" Margin="10,10,10,10" Click="ResetData" FontSize="14"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="0" Margin="0,5,0,5">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Label Content="diffuse tint" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="" FontSize="16"/>
+                    <Label Content="Mettre la valeur à 0x00FFFFFF si les vitres et gyrophares sont trop sombre." VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+
+                </StackPanel>
+                <TextBox x:Name="diffuseTint" Grid.Row="1" TextWrapping="Wrap" FontFamily="Consolas" Width="100" TextChanged="DiffTintValidation" HorizontalAlignment="Left"/>
+            </Grid>
+            <Expander Grid.Row="2" Grid.Column="0" Header="LODs">
+                <Grid Margin="0,5,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="6" Orientation="Horizontal">
+                        <Label Content="lodDistances" FontSize="16"/>
+                        <Label Content="Mettre les valeurs à 500 si le véhicule disparait quand il est s'éloigne" VerticalAlignment="Center" Foreground="#CC000000" FontStyle="Italic"/>
+                    </StackPanel>
+                    <Label Content="1" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox x:Name="vehicleLOD1" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="" Width="100" FontFamily="Consolas" TextChanged="LODValidation" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="2" Grid.Row="2" Grid.Column="0"/>
+                    <TextBox x:Name="vehicleLOD2" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="" Width="100" FontFamily="Consolas" TextChanged="LODValidation" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="3" Grid.Row="1" Grid.Column="2"/>
+                    <TextBox x:Name="vehicleLOD3" Grid.Row="1" Grid.Column="3" TextWrapping="Wrap" Text="" Width="100" FontFamily="Consolas" TextChanged="LODValidation" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="4" Grid.Row="2" Grid.Column="2"/>
+                    <TextBox x:Name="vehicleLOD4" Grid.Row="2" Grid.Column="3" TextWrapping="Wrap" Text="" Width="100" FontFamily="Consolas" TextChanged="LODValidation" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="5" Grid.Row="1" Grid.Column="4"/>
+                    <TextBox x:Name="vehicleLOD5" Grid.Row="1" Grid.Column="5" TextWrapping="Wrap" Text="" Width="100" FontFamily="Consolas" TextChanged="LODValidation" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="6" Grid.Row="2" Grid.Column="4"/>
+                    <TextBox x:Name="vehicleLOD6" Grid.Row="2" Grid.Column="5" TextWrapping="Wrap" Text="" Width="100" FontFamily="Consolas" TextChanged="LODValidation" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            </Expander>
+            <Expander Grid.Row="3" Grid.Column="0" Header="Flags">
+                <Grid Margin="0,5,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" ToolTip="Rechercher">
+                        <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Content="Flags"/>
+                        <TextBox x:Name="flagsFilter" Text="" TextChanged="FlagsFilter_TextChanged" Width="100" VerticalAlignment="Center" CharacterCasing="Upper"/>
+                        <Label Content="Utiliser '.' pour afficher uniquement les cases cochées" VerticalAlignment="Center" Foreground="#CC000000" FontStyle="Italic"/>
+                    </StackPanel>
+
+                    <ScrollViewer x:Name="FlagsScroll" Grid.Row="1" Height="150" ScrollChanged="FlagsScroll_ScrollChanged" RenderTransformOrigin="0.5,0.5">
+                        <StackPanel x:Name="ListFlags"/>
+                    </ScrollViewer>
+                </Grid>
+            </Expander>
+            <Expander Grid.Row="4" Grid.Column="0" Header="Propriétés avancées">
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Model name" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+                        <TextBox x:Name="modelName" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" FontFamily="Consolas" TextChanged="ModelNameValidation" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                        <Label Content="Handling ID" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="Nom utilisé dans handling.meta" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+                        <TextBox x:Name="handlingId" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" FontFamily="Consolas" TextChanged="HandlingValidation" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Game name" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="Nom affiché en jeu" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+                        <TextBox x:Name="gameName" Grid.Row="1" TextWrapping="Wrap" FontFamily="Consolas" TextChanged="GameNameValidation" HorizontalAlignment="Left" VerticalAlignment="Center" CharacterCasing="Upper" MinWidth="100"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                        <Label Content="Vehicle make name" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="Marque du véhicule" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+                        <TextBox x:Name="makeName" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" FontFamily="Consolas" TextChanged="MakeNameValidation" HorizontalAlignment="Left" VerticalAlignment="Center" CharacterCasing="Upper" MinWidth="100"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Audio name hash" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+                        <TextBox x:Name="audioHash" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" FontFamily="Consolas" TextChanged="AudioNameValidation" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                        <Label Content="Layout" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="Disposition (utilisé pour animations)" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+                        <TextBox x:Name="vehLayout" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" FontFamily="Consolas" TextChanged="LayoutValidation" HorizontalAlignment="Left" VerticalAlignment="Center" CharacterCasing="Upper" MinWidth="100"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Type" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="Type de véhicule" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic" />
+                        <ComboBox  x:Name="vehType" Grid.Row="1" Grid.Column="1" FontFamily="Consolas" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100">
+                            <ComboBoxItem Content="VEHICLE_TYPE_CAR"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_PLANE"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_TRAILER"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_QUADBIKE"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_DRAFT"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_SUBMARINECAR"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_AMPHIBIOUS_AUTOMOBILE"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_AMPHIBIOUS_QUADBIKE"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_HELI"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_BLIMP"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_AUTOGYRO"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_BIKE"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_BICYCLE"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_BOAT"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_TRAIN"/>
+                            <ComboBoxItem Content="VEHICLE_TYPE_SUBMARINE"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <Label Content="Vehicle class" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                        <Label Content="Classe du véhicule" VerticalAlignment="Center" Foreground="#C8000000" FontStyle="Italic"/>
+                        <ComboBox x:Name="vehClass" Grid.Row="1" Grid.Column="1" FontFamily="Consolas" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100">
+                            <ComboBoxItem Content="VC_COMPACT"/>
+                            <ComboBoxItem Content="VC_SEDAN"/>
+                            <ComboBoxItem Content="VC_SUV"/>
+                            <ComboBoxItem Content="VC_COUPE"/>
+                            <ComboBoxItem Content="VC_MUSCLE"/>
+                            <ComboBoxItem Content="VC_SPORT_CLASSIC"/>
+                            <ComboBoxItem Content="VC_SPORT"/>
+                            <ComboBoxItem Content="VC_SUPER"/>
+                            <ComboBoxItem Content="VC_MOTORCYCLE"/>
+                            <ComboBoxItem Content="VC_OFF_ROAD"/>
+                            <ComboBoxItem Content="VC_INDUSTRIAL"/>
+                            <ComboBoxItem Content="VC_UTILITY"/>
+                            <ComboBoxItem Content="VC_VAN"/>
+                            <ComboBoxItem Content="VC_CYCLE"/>
+                            <ComboBoxItem Content="VC_BOAT"/>
+                            <ComboBoxItem Content="VC_HELICOPTER"/>
+                            <ComboBoxItem Content="VC_PLANE"/>
+                            <ComboBoxItem Content="VC_SERVICE"/>
+                            <ComboBoxItem Content="VC_EMERGENCY"/>
+                            <ComboBoxItem Content="VC_MILITARY"/>
+                            <ComboBoxItem Content="VC_COMMERCIAL"/>
+                            <ComboBoxItem Content="VC_RAIL"/>
+                            <ComboBoxItem Content="VC_OPEN_WHEEL"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+            </Expander>
+        </Grid>
+
+        <TabControl x:Name="TabControlPreviews" Grid.Row="2" Grid.Column="0" Margin="10,0,10,10" IsEnabled="False">
+            <TabItem x:Name="TabItemVehicle" Header="Véhicule" Background="#2600D1FF" Foreground="#FF00D1FF">
+                <Grid x:Name="XmlTree">
+                    <TextBox x:Name="VehiclePreview" FontFamily="Consolas" SelectionBrush="#FF00D715" IsInactiveSelectionHighlightEnabled="True" Background="#2600D1FF" LostFocus="VehiclePreview_LostFocus" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Fichier" IsSelected="True" Foreground="#FFC0A001">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="#33FFD400"/>
+                        <GradientStop Color="#33FFD400" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
+                    <TextBox x:Name="FilePreview" FontFamily="Consolas" IsReadOnly="True" Background="#33FFD400" VerticalScrollBarVisibility="Visible"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Grid x:Name="LoadFileOverlay" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#CC000000" MouseDown="LoadFileOverlay_MouseDown" Cursor="Hand" Visibility="Hidden">
+            <Label Content="Ouvrez un fichier ou déposez-le ici" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        </Grid>
+        <Grid x:Name="DropOverlay" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Background="#CC000000" Visibility="Hidden">
+            <Label Content="Déposer le fichier .meta pour l'ouvrir" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        </Grid>
+    </Grid>
+</Window>
