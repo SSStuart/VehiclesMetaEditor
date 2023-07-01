@@ -24,6 +24,7 @@
                     <MenuItem Header="_Ouvrir" Click="OpenFileBtn_Click"/>
                     <MenuItem x:Name="menuSaveItem" Header="_Enregistrer" IsEnabled="False" Click="SaveFileBtn_Click"/>
                 </MenuItem>
+                <MenuItem Header="_A propos" Click="About_Click"/>
             </Menu>
         </DockPanel>
 

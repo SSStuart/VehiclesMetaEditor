@@ -755,5 +755,10 @@ namespace VehiclesMetaEditor
                 Debug.WriteLine("BOTH");
             }
         }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Editeur de fichier vehicles.meta (pour le jeu GTA 5)\r\nDéveloppé par SSStuart\r\n\r\nContact :\r\n - Email : ssstuart.glunabouli@gmail.com\r\n - Discord : ssstuart", "Vehicles.meta Editor | SSStuart", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }
